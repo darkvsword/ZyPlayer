@@ -80,9 +80,14 @@ const handlers: Record<string, (options?: Record<string, any>) => Promise<any>> 
 };
 
 const main = async (type: string, options?: Record<string, any>) => {
-  const handler = handlers[type];
-  if (isNil(handler)) throw new Error(`Method not found for type: ${type}`);
-  return await handler(options);
+  try {
+    const handler = handlers[type];
+    if (isNil(handler)) throw new Error(`Method not found for type: ${type}`);
+    return await handler(options);
+  } catch (error) {
+    console.error((error as Error).message);
+    throw error;
+  }
 };
 
 workerpool.worker({ main });

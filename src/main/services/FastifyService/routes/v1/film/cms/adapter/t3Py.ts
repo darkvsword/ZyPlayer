@@ -61,7 +61,7 @@ class ConnectService extends PythonService {
       const pool = workerpool.pool({
         maxWorkers: 1,
         workerType: 'process',
-        workerTerminateTimeout: 5000,
+        forkOpts: { silent: true },
       });
 
       await pool.exec(loggerModule, [this.logPort], {
